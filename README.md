@@ -166,3 +166,32 @@ Para migrar de SQLite para PostgreSQL, você pode usar a biblioteca `psycopg2` p
 
 ### Observação
 Caso deseje simplificar, você pode substituir a função `save_to_database` para um `INSERT` direto ao invés de `pandas.to_sql`, caso tenha dificuldades com integração pandas e PostgreSQL.
+
+## Docker
+
+Aqui estão os comandos para construir e executar o contêiner Docker com o `.env`:
+
+1. **Construir a Imagem Docker**:
+   Navegue até o diretório onde o `Dockerfile` está localizado e execute:
+
+   ```bash
+   docker build -t app_8 .
+   ```
+
+   Esse comando cria uma imagem Docker chamada `app_8` usando o `Dockerfile` atual.
+
+2. **Executar o Contêiner com as Variáveis de Ambiente do `.env`**:
+   Para iniciar o contêiner e carregar as variáveis de ambiente do arquivo `.env`, use:
+
+   ```bash
+   docker run -d --env-file .env --name app_8_container app_8
+   ```
+
+   - `-d`: Executa o contêiner em segundo plano (modo "detached").
+   - `--env-file .env`: Carrega as variáveis de ambiente definidas no arquivo `.env`.
+   - `--name app_8_container`: Nomeia o contêiner como `app_8_container`.
+   - `app_8`: Especifica a imagem que você criou no comando de build.
+
+Esse processo configurará o contêiner para rodar o `app_8.py` com as variáveis de ambiente do `.env`.
+
+## Amazon
