@@ -1,5 +1,4 @@
-# Roadmap de Engenharia de Dados 
-
+ 
 <p align="center">
   <a href="https://suajornadadedados.com.br/"><img src="https://github.com/lvgalvao/data-engineering-roadmap/raw/main/pics/logo.png" alt="Jornada de Dados"></a>
 </p>
@@ -7,7 +6,7 @@
     <em>Nossa missão é fornecer o melhor ensino em engenharia de dados</em>
 </p>
 
-Bem-vindo ao **Roadmap de Engenharia de Dados**
+Bem-vindo a **Jornada de Dados**
 
 # Monitoramento de Preço com Web Scraping e Notificações no Telegram
 
