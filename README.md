@@ -1,7 +1,7 @@
 # Roadmap de Engenharia de Dados 
 
 <p align="center">
-  <a href="https://suajornadadedados.com.br/"><img src="pics/logo.png" alt="Jornada de Dados"></a>
+  <a href="https://suajornadadedados.com.br/"><img src="https://github.com/lvgalvao/data-engineering-roadmap/raw/main/pics/logo.png" alt="Jornada de Dados"></a>
 </p>
 <p align="center">
     <em>Nossa missão é fornecer o melhor ensino em engenharia de dados</em>
