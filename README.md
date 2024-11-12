@@ -224,8 +224,8 @@ sudo apt install git -y
 
 Clone o repositório do projeto no diretório `/home/ubuntu`:
 ```bash
-sudo git clone https://github.com/lvgalvao/IphoneProjectWebScraping.git /home/ubuntu/IphoneProjectWebScraping
-cd /home/ubuntu/IphoneProjectWebScraping
+sudo git clone https://github.com/lvgalvao/IphoneProjectWebScraping.git
+cd phoneProjectWebScraping
 ```
 
 ### 5. Instalar o Docker
