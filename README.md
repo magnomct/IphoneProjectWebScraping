@@ -195,3 +195,127 @@ Aqui estão os comandos para construir e executar o contêiner Docker com o `.en
 Esse processo configurará o contêiner para rodar o `app_8.py` com as variáveis de ambiente do `.env`.
 
 ## Amazon
+
+Aqui está o passo a passo completo atualizado para configurar uma instância Ubuntu e executar seu projeto Docker, com todos os comandos usando `sudo` para evitar problemas de permissão.
+
+### 1. Conectar à Instância EC2
+
+Conecte-se à sua instância Ubuntu na AWS via SSH:
+```bash
+ssh -i "seu-arquivo.pem" ubuntu@seu-endereco-ec2
+```
+
+### 2. Atualizar o Sistema
+
+Atualize o sistema e os pacotes:
+```bash
+sudo apt update -y
+sudo apt upgrade -y
+```
+
+### 3. Instalar Git
+
+Instale o Git para clonar o repositório do projeto:
+```bash
+sudo apt install git -y
+```
+
+### 4. Clonar o Repositório
+
+Clone o repositório do projeto no diretório `/home/ubuntu`:
+```bash
+sudo git clone https://github.com/lvgalvao/IphoneProjectWebScraping.git /home/ubuntu/IphoneProjectWebScraping
+cd /home/ubuntu/IphoneProjectWebScraping
+```
+
+### 5. Instalar o Docker
+
+#### 5.1 Instalar Dependências do Docker
+
+Primeiro, instale os pacotes necessários para adicionar o repositório do Docker:
+```bash
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+```
+
+#### 5.2 Adicionar o Repositório Docker
+
+Adicione a chave GPG do Docker e o repositório oficial:
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+#### 5.3 Instalar Docker
+
+Atualize novamente os pacotes e instale o Docker:
+```bash
+sudo apt update -y
+sudo apt install docker-ce docker-ce-cli containerd.io -y
+```
+
+#### 5.4 Iniciar e Habilitar o Docker
+
+Inicie o Docker e configure-o para iniciar automaticamente ao ligar o sistema:
+```bash
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+### 6. Configurar o Arquivo `.env` com as Variáveis de Ambiente
+
+No diretório `/home/ubuntu/IphoneProjectWebScraping`, crie o arquivo `.env` para armazenar as variáveis de ambiente necessárias:
+
+```bash
+sudo nano .env
+```
+
+Dentro do editor `nano`, insira as variáveis de ambiente do projeto:
+
+```dotenv
+# Telegram Bot
+TELEGRAM_TOKEN=XXX
+TELEGRAM_CHAT_ID=XXX
+
+# PostgreSQL Database
+POSTGRES_DB=XXX
+POSTGRES_USER=XXX
+POSTGRES_PASSWORD=XXX
+POSTGRES_HOST=XXX
+POSTGRES_PORT=XXX
+```
+
+Pressione `Ctrl + X` para sair, `Y` para confirmar as alterações e `Enter` para salvar.
+
+### 7. Construir a Imagem Docker
+
+No diretório do projeto, onde o `Dockerfile` está localizado, construa a imagem Docker usando `sudo`:
+
+```bash
+sudo docker build -t iphone_project .
+```
+
+Esse comando cria uma imagem Docker chamada `iphone_project` com base no `Dockerfile`.
+
+### 8. Executar o Contêiner com o Arquivo `.env`
+
+Agora que a imagem foi construída, execute o contêiner e carregue as variáveis de ambiente do `.env`:
+
+```bash
+sudo docker run -d --env-file .env --name iphone_project_container iphone_project
+```
+
+Explicação dos parâmetros:
+- `-d`: Executa o contêiner em segundo plano.
+- `--env-file .env`: Carrega as variáveis de ambiente do arquivo `.env`.
+- `--name iphone_project_container`: Nome do contêiner.
+- `iphone_project`: Nome da imagem Docker criada.
+
+### 9. Verificar os Logs do Contêiner
+
+Para garantir que o contêiner está rodando corretamente, você pode verificar os logs com:
+
+```bash
+sudo docker logs iphone_project_container
+```
+
+Esse processo completo deve configurar sua instância Ubuntu com Git e Docker, permitir que você crie o `.env`, e rode o contêiner Docker do seu projeto com todos os comandos usando `sudo`.
