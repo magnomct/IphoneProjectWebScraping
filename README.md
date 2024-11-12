@@ -130,3 +130,39 @@ Esse módulo utiliza a biblioteca `python-telegram-bot` para enviar uma mensagem
    ```
 
 O projeto agora iniciará o monitoramento do preço de produtos, verificando em intervalos regulares e notificando o usuário via Telegram caso o preço atinja o valor desejado.
+
+## Migrando para Postgres
+
+Para migrar de SQLite para PostgreSQL, você pode usar a biblioteca `psycopg2` para conectar-se ao banco de dados PostgreSQL. Abaixo está o código atualizado para suportar o PostgreSQL. Vou explicar as mudanças e as etapas adicionais necessárias para configurar o ambiente.
+
+1. Primeiro, instale o `psycopg2`:
+   ```bash
+   pip install psycopg2-binary
+   ```
+
+2. Atualize o arquivo `.env` com as credenciais do PostgreSQL:
+   ```env
+   TELEGRAM_TOKEN=SEU_TOKEN_DO_TELEGRAM
+   TELEGRAM_CHAT_ID=SEU_CHAT_ID
+   POSTGRES_DB=nome_do_banco
+   POSTGRES_USER=seu_usuario
+   POSTGRES_PASSWORD=sua_senha
+   POSTGRES_HOST=localhost
+   POSTGRES_PORT=5432
+   ```
+
+### Alterações Realizadas
+
+- **Substituição do SQLite pelo PostgreSQL**: 
+   - O módulo `sqlite3` foi substituído por `psycopg2`, que conecta-se ao PostgreSQL.
+   - As variáveis de ambiente foram configuradas para receber as credenciais de conexão ao PostgreSQL.
+   
+- **Criação da Tabela `prices`**:
+   - Utilizamos a sintaxe SQL específica do PostgreSQL para a criação da tabela `prices`.
+   
+- **Salvamento e Consulta de Dados**:
+   - A função `get_max_price` consulta o maior preço registrado até o momento na tabela `prices` do PostgreSQL.
+   - `save_to_database` salva o registro atual utilizando um `DataFrame` pandas.
+
+### Observação
+Caso deseje simplificar, você pode substituir a função `save_to_database` para um `INSERT` direto ao invés de `pandas.to_sql`, caso tenha dificuldades com integração pandas e PostgreSQL.
