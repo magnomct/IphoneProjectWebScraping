@@ -1,10 +1,57 @@
-Aqui está o README atualizado com instruções detalhadas para o seu projeto:
+# Roadmap de Engenharia de Dados 
 
----
+<p align="center">
+  <a href="https://suajornadadedados.com.br/"><img src="pics/logo.png" alt="Jornada de Dados"></a>
+</p>
+<p align="center">
+    <em>Nossa missão é fornecer o melhor ensino em engenharia de dados</em>
+</p>
+
+Bem-vindo ao **Roadmap de Engenharia de Dados**
 
 # Monitoramento de Preço com Web Scraping e Notificações no Telegram
 
 Este projeto realiza o monitoramento de preços de produtos em sites de e-commerce. Utilizando técnicas de web scraping, o projeto coleta preços e envia notificações no Telegram quando o valor atinge um limite específico definido pelo usuário. A aplicação é modular, dividida em partes para facilitar o desenvolvimento e a manutenção.
+
+```mermaid
+sequenceDiagram
+    participant User as Usuário
+    participant Bot as Bot Telegram
+    participant Script as Script Principal
+    participant DB as Banco de Dados (SQLite)
+    participant ML as Mercado Livre
+
+    User->>Script: Inicia o script
+    Script->>ML: fetch_page() - Requisição para obter HTML da página
+    ML-->>Script: Responde com HTML da página
+
+    Script->>Script: parse_page() - Extrai informações de preço e produto
+    Script->>DB: create_connection() - Conecta ao banco de dados
+    Script->>DB: setup_database() - Cria tabela 'prices' se não existir
+    Script->>DB: get_max_price() - Consulta maior preço registrado
+
+    alt Se não houver preço registrado
+        Script->>Bot: send_telegram_message() - "Novo preço maior detectado"
+        Bot-->>User: Notificação via Telegram
+    else Se houver preço registrado
+        Script->>Script: Compara o preço atual com o maior preço registrado
+        alt Se o preço atual for maior
+            Script->>Bot: send_telegram_message() - "Novo preço maior detectado"
+            Bot-->>User: Notificação via Telegram
+        else Se o preço atual não for maior
+            Script->>Bot: send_telegram_message() - "Maior preço registrado é X"
+            Bot-->>User: Notificação via Telegram
+        end
+    end
+
+    Script->>DB: save_to_database() - Salva informações de preço e produto
+    Script->>Script: Aguarda 10 segundos antes de repetir o processo
+    loop Loop contínuo
+        Script->>ML: Requisição para atualizar preço
+        ML-->>Script: Responde com novo preço
+        Script->>Script: Processo de verificação e notificação se repete
+    end
+```
 
 ## Bibliotecas Utilizadas e Explicação
 
